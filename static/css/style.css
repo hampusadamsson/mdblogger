@@ -1,0 +1,54 @@
+/* body { */
+/* background-color: var(--pico-background-color); */
+/* color: var(--pico-color); */
+/* font-family: "FiraCode Nerd Font", monospace; */
+/* } */
+
+header {
+  /* font-family: "Dancing Script", cursive; */
+  font-family: "FiraCode Nerd Font", monospace;
+}
+
+/* section { */
+/*   background-color: var(--pico-background-color); */
+/*   color: var(--pico-color); */
+/* } */
+/**/
+a,
+u {
+  text-decoration: none;
+}
+.content {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.blog {
+  max-width: 750px;
+}
+
+header {
+  position: sticky;
+  /* top: 0; */
+  /* background: white; */
+  z-index: 100;
+  padding: 0.25rem 1.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.navmin {
+  height: 0.75rem;
+}
+
+.borderu {
+  border-radius: 50%;
+}
+
+#theme-toggle {
+  margin-left: auto;
+}
+
+.navmax {
+  height: 1rem;
+}

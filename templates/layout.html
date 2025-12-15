@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ .Title }}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <nav role="navigation">
+        <a href="/" class="">My Blog</a>
+        <ul class="navmin">
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog/about">About</a></li>
+          <li>
+            <div role="button" class="outline" id="theme-toggle">●</div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="content">
+      {{if .Post}}
+      <div id="content" class="blog">{{ template "post" . }}</div>
+      {{else}}
+      <div id="content" class="blog">{{ template "list" . }}</div>
+      {{end}}
+    </main>
+
+    <hr />
+    <footer class="content">
+      <p>© 2025 My Blog</p>
+    </footer>
+    <script>
+      const toggle = document.getElementById("theme-toggle");
+      toggle.addEventListener("click", () => {
+        const html = document.documentElement;
+        if (html.getAttribute("data-theme") === "light") {
+          html.setAttribute("data-theme", "dark");
+          toggle.textContent = "◯";
+        } else {
+          html.setAttribute("data-theme", "light");
+          toggle.textContent = "●";
+        }
+      });
+    </script>
+  </body>
+</html>
