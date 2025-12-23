@@ -4,6 +4,8 @@ A dead-simple, lightweight Markdown-to-blog framework written in **pure Go**. No
 
 Just point it at a folder of Markdown files, and your blog is live instantly.
 
+![image](example.png)
+
 ## ✨ Features
 
 - **Zero-Config Ready:** Runs straight out of the box.
