@@ -1,7 +1,3 @@
-A dead simple, lightweight markdown to blog framework written in pure Go. No bloated Js framework. Just point at a markdown folder and it will be This README is designed to look professional and clear, following the standard GitHub documentation patterns used by high-quality open-source projects.
-
----
-
 # 🚀 GoMarkdown Blog
 
 A dead-simple, lightweight Markdown-to-blog framework written in **pure Go**. No bloated JavaScript frameworks, no complex databases, and no heavy dependencies.
