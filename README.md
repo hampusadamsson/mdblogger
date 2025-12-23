@@ -104,5 +104,3 @@ The structure includes a `list` definition for the homepage and a `post` definit
 ## 📜 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-**Would you like me to generate a sample `about.md` or a `docker-compose.yml` file to go along with this repo?**
