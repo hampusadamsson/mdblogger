@@ -9,6 +9,11 @@
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
     />
     <link rel="stylesheet" href="/static/css/style.css" />
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<script>hljs.highlightAll();</script>
   </head>
   <body>
     <header>
@@ -17,9 +22,9 @@
         <ul class="navmin">
           <li><a href="/">Home</a></li>
           <li><a href="/blog/about">About</a></li>
-          <li>
-            <div role="button" class="outline" id="theme-toggle">●</div>
-          </li>
+          <!-- <li> -->
+          <!--   <div role="button" class="outline" id="theme-toggle">●</div> -->
+          <!-- </li> -->
         </ul>
       </nav>
     </header>
@@ -36,18 +41,18 @@
     <footer class="content">
       <p>© 2025 My Blog</p>
     </footer>
-    <script>
-      const toggle = document.getElementById("theme-toggle");
-      toggle.addEventListener("click", () => {
-        const html = document.documentElement;
-        if (html.getAttribute("data-theme") === "light") {
-          html.setAttribute("data-theme", "dark");
-          toggle.textContent = "◯";
-        } else {
-          html.setAttribute("data-theme", "light");
-          toggle.textContent = "●";
-        }
-      });
-    </script>
+    <!-- <script> -->
+    <!--   const toggle = document.getElementById("theme-toggle"); -->
+    <!--   toggle.addEventListener("click", () => { -->
+    <!--     const html = document.documentElement; -->
+    <!--     if (html.getAttribute("data-theme") === "light") { -->
+    <!--       html.setAttribute("data-theme", "dark"); -->
+    <!--       toggle.textContent = "◯"; -->
+    <!--     } else { -->
+    <!--       html.setAttribute("data-theme", "light"); -->
+    <!--       toggle.textContent = "●"; -->
+    <!--     } -->
+    <!--   }); -->
+    <!-- </script> -->
   </body>
 </html>

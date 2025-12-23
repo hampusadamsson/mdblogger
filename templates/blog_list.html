@@ -1,12 +1,10 @@
 {{ define "list" }}
 <section class="blog-list">
-  <!-- <h1 class="blog-title">All Writing</h1> -->
-
   {{ range .Posts }}
   <article class="post-item">
-    <h5 class="post-title">
+    <p class="post-title">
       <a href="/blog/{{ .Slug }}">{{ .Title }}</a>
-    </h5>
+    </p>
     <small class="weak">{{ .EditedTS}}</small>
   </article>
   {{ else }}
