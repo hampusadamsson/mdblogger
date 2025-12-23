@@ -87,7 +87,7 @@ You can configure the server using CLI flags or Environment Variables. **Flags a
 ### Example with Flags
 
 ```bash
-go run main.go -path ./my-posts -port 9000 -host 0.0.0.0
+go run . -path ./content -port 9000 -host 0.0.0.0
 
 ```
 
@@ -98,6 +98,66 @@ go run main.go -path ./my-posts -port 9000 -host 0.0.0.0
 The blog uses pure HTML templates located in the `templates/` folder. You can modify these to change the look and feel without needing to recompile the Go binary.
 
 The structure includes a `list` definition for the homepage and a `post` definition for individual articles.
+
+---
+
+## ⚡ Performance & Resource Usage
+
+This framework is built for speed and efficiency. Below are the results of a stress test performed on a standard development machine (Pop!\_OS 22.04).
+Ultra 7 155U: 12 Cores (2P, 8E, 2LPE), 14 Threads, up to 4.8GHz.
+Test is running localhost.
+
+### Benchmarks
+
+Tested using `wrk` with 100 concurrent connections over 30 seconds:
+
+```bash
+wrk -c 100 -d 30 -t 5 http://localhost:8080/blog/about
+
+```
+
+| Metric             | Value                   |
+| ------------------ | ----------------------- |
+| **Throughput**     | **96,085 requests/sec** |
+| **Latency (Avg)**  | **1.40 ms**             |
+| **Transfer Rate**  | **207.09 MB/sec**       |
+| **Total Requests** | **2.89 Million**        |
+
+### Resource Footprint
+
+Measured using `ps` during peak load to determine the physical memory (RSS) impact:
+
+| Resource          | Usage        |
+| ----------------- | ------------ |
+| **Idle RAM**      | **~12 MB**   |
+| **Peak Load RAM** | **~19.5 MB** |
+| **CPU (Idle)**    | **< 0.1%**   |
+
+### Why it's so efficient
+
+- **Low Memory Overhead:** Uses only ~20MB of RAM even when serving nearly 100k requests per second. You can run this on the smallest VPS (DigitalOcean Droplet, AWS Nano, etc.) with zero issues.
+- **No Interpreter:** Being a compiled Go binary, there is no heavy JavaScript engine (V8) or Python interpreter eating up your memory.
+- **Goroutines:** Every connection is handled by a lightweight Goroutine (~2KB each) rather than a heavy OS thread.
+
+---
+
+### How to Reproduce
+
+To run your own resource check, use the following commands while the server is under load:
+
+**Memory check:**
+
+```bash
+ps -C blogger -o pid,rss,comm,pmem
+
+```
+
+**Load test:**
+
+```bash
+wrk -c 100 -d 30 -t 5 http://localhost:8080/
+
+```
 
 ---
 
