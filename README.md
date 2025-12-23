@@ -1,4 +1,4 @@
-# 🚀 GoMarkdown Blog
+# 🚀 MarkDown Blogger
 
 A dead-simple, lightweight Markdown-to-blog framework written in **pure Go**. No bloated JavaScript frameworks, no complex databases, and no heavy dependencies.
 
