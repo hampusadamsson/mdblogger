@@ -18,7 +18,6 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           version: latest
-          args: --output-format=github-actions
   test:
     name: Tests & Race Detection
     runs-on: ubuntu-latest
