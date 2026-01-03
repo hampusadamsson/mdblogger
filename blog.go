@@ -151,9 +151,10 @@ func loadBlogPosts(path string) error {
 			}
 
 			name := strings.TrimSuffix(f.Name(), ".md")
-
+			rawTitle := strings.ReplaceAll(name, "-", " ")
+			title := strings.ToUpper(rawTitle[:1]) + rawTitle[1:]
 			newPosts[name] = BlogPost{
-				Title:       strings.Title(strings.ReplaceAll(name, "-", " ")),
+				Title:       title,
 				Post:        true,
 				Slug:        name,
 				EditedTS:    modedTime,
