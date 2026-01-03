@@ -11,13 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v5 # Upgraded to v5 for better 1.25 support
         with:
-          go-version: "1.24.x"
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2
-        with:
-          version: latest
+          go-version: "1.25.x"
+          cache: true
+
+      - name: Install and Run golangci-lint
+        run: |
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+          golangci-lint run ./... --out-format=colored-line-number
   test:
     name: Tests & Race Detection
     runs-on: ubuntu-latest
