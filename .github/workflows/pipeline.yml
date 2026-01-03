@@ -20,7 +20,7 @@ jobs:
           cache: false # golangci-lint handles its own caching
 
       - name: golangci-lint
-        uses: golangci-lint/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v2
         with:
           version: latest
           # This prevents the "repository not found" error by ensuring
