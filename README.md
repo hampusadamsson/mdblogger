@@ -4,7 +4,9 @@ A dead-simple, lightweight Markdown-to-blog framework written in **pure Go**. No
 
 Just point it at a folder of Markdown files, and your blog is live instantly.
 
-![image](example.png)
+<div align="center">
+<img src="mdblogger.png" />
+</div>
 
 ## ✨ Features
 
@@ -15,9 +17,13 @@ Just point it at a folder of Markdown files, and your blog is live instantly.
 - **Environment Friendly:** Configure via CLI flags or Environment Variables.
 - **Minimalist:** High performance with a tiny memory footprint.
 
+<div align="center">
+<img src="example.png" />
+</div>
+
 ---
 
-## 🛠️ Installation
+## Installation
 
 Ensure you have [Go](https://go.dev/doc/install) installed, then clone this repository:
 
@@ -29,7 +35,7 @@ cd gomarkdown-blog
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 To host your blog from a specific directory:
 
@@ -42,7 +48,7 @@ Visit `http://localhost:8080` to see your blog.
 
 ---
 
-## 📂 Content Structure
+## Content Structure
 
 Organize your content folder like this:
 
@@ -74,7 +80,7 @@ To create an "About Me" section, simply create an `about.md` file in your root c
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 You can configure the server using CLI flags or Environment Variables. **Flags always take precedence over environment variables.**
 
@@ -95,7 +101,7 @@ go run . -path ./content -port 9000 -host 0.0.0.0
 
 ---
 
-## 🎨 Customizing Templates
+## Customizing Templates
 
 The blog uses pure HTML templates located in the `templates/` folder. You can modify these to change the look and feel without needing to recompile the Go binary.
 
@@ -103,7 +109,7 @@ The structure includes a `list` definition for the homepage and a `post` definit
 
 ---
 
-## ⚡ Performance & Resource Usage
+## Performance & Resource Usage
 
 This framework is built for speed and efficiency. Below are the results of a stress test performed on a standard development machine (Pop!\_OS 22.04).
 Ultra 7 155U: 12 Cores (2P, 8E, 2LPE), 14 Threads, up to 4.8GHz.
@@ -163,6 +169,6 @@ wrk -c 100 -d 30 -t 5 http://localhost:8080/
 
 ---
 
-## 📜 License
+## License
 
 Distributed under the MIT License. See `LICENSE` for more information.

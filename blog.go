@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
@@ -116,32 +117,42 @@ func loadTemplates(folder string) {
 }
 
 func loadBlogPosts(path string) error {
-	blogMux.Lock()
-	defer blogMux.Unlock()
-
-	posts := make(map[string]BlogPost)
-
 	files, err := os.ReadDir(path)
 	if err != nil {
 		return err
 	}
 
-	for _, f := range files {
-		if strings.HasSuffix(f.Name(), ".md") {
+	newPosts := make(map[string]BlogPost)
 
-			html, err := markdownToHTML(path + "/" + f.Name())
+	for _, f := range files {
+		if !f.IsDir() && strings.HasSuffix(f.Name(), ".md") {
+			fullPath := filepath.Join(path, f.Name())
+
+			// 1. Read the raw file content to check for text
+			content, err := os.ReadFile(fullPath)
 			if err != nil {
-				return err
+				return fmt.Errorf("could not read file %s: %w", f.Name(), err)
 			}
 
-			modedTime, err := fileModed(path + "/" + f.Name())
+			// 2. Strip whitespace and check if empty
+			if len(strings.TrimSpace(string(content))) == 0 {
+				continue // Skip this file
+			}
+
+			// 3. Process the file as before
+			html, err := markdownToHTML(fullPath)
+			if err != nil {
+				return fmt.Errorf("error parsing %s: %w", f.Name(), err)
+			}
+
+			modedTime, err := fileModed(fullPath)
 			if err != nil {
 				return err
 			}
 
 			name := strings.TrimSuffix(f.Name(), ".md")
 
-			posts[name] = BlogPost{
+			newPosts[name] = BlogPost{
 				Title:       strings.Title(strings.ReplaceAll(name, "-", " ")),
 				Post:        true,
 				Slug:        name,
@@ -151,7 +162,10 @@ func loadBlogPosts(path string) error {
 		}
 	}
 
-	blogPosts = posts
+	blogMux.Lock()
+	blogPosts = newPosts
+	blogMux.Unlock()
+
 	logger.Info(fmt.Sprintf("Found: %d posts\n", len(blogPosts)))
 	return nil
 }

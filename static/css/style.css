@@ -1,13 +1,17 @@
-/* body { */
-/* background-color: var(--pico-background-color); */
-/* color: var(--pico-color); */
-/* font-family: "FiraCode Nerd Font", monospace; */
-/* } */
+body {
+background-color: var(--pico-background-color);
+color: var(--pico-color);
+font-family: "FiraCode Nerd Font";
+}
 
 header {
-  /* font-family: "Dancing Script", cursive; */
-  font-family: "FiraCode Nerd Font", monospace;
+  font-family: "FiraCode Nerd Font";
 }
+
+h1 {
+  font-family: "FiraCode Nerd Font";
+}
+
 
 pre {
     max-width: calc(100vw - 50px);
