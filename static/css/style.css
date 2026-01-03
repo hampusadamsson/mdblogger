@@ -12,14 +12,6 @@ h1 {
   font-family: "FiraCode Nerd Font";
 }
 
-
-pre {
-    max-width: calc(100vw - 50px);
-    overflow-x: auto; /* Adds the horizontal scrollbar when needed */
-    white-space: pre;  /* Ensures code doesn't wrap to the next line */
-    word-wrap: normal; /* Prevents breaking words */
-}
-
 /* Optional: Style the scrollbar to match Pico's aesthetic */
 pre::-webkit-scrollbar {
     height: 8px;
@@ -27,6 +19,23 @@ pre::-webkit-scrollbar {
 pre::-webkit-scrollbar-thumb {
     background: var(--pico-muted-border-color);
     border-radius: 4px;
+}
+
+pre {
+    max-width: calc(100vw - 50px);
+    overflow-x: auto;   /* Adds the horizontal scrollbar when needed */
+    white-space: pre;    /* Ensures code doesn't wrap to the next line */
+    word-wrap: normal;   /* Prevents breaking words */
+    
+    /* Font size adjustments */
+    font-size: 0.8rem;   /* Scalable small size */
+    line-height: 1.4;    /* Tightens vertical space for smaller text */
+}
+
+/* Also target the <code> tag inside <pre> for consistency */
+pre code {
+    font-size: inherit;
+    font-family: inherit;
 }
 
 /* section { */

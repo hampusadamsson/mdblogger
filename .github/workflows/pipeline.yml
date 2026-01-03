@@ -1,46 +1,36 @@
 name: Go Quality & Build
-
 on:
   push:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-
 jobs:
   lint:
     name: Linting
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
+      - name: Set up Go
+        uses: actions/setup-go@v2
         with:
           go-version: "1.25.x" # Align with your project's version
-
       - name: golangci-lint
-        uses: golangci-lint/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v2
         with:
-          # Using 'latest' usually works, but if 1.25 is bleeding edge,
-          # version v1.64.8+ is required.
           version: latest
-          # This helps resolve the "output format" warning
-          args: --out-format=colored-line-number
-
+          args: --output-format=github-actions
   test:
     name: Tests & Race Detection
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Go
-        uses: actions/setup-go@v5
+      - name: Set up Go
+        uses: actions/setup-go@v2
         with:
           go-version: "1.25.x"
-          cache: true
-
+          cache: "on"
       - name: Run Tests
         run: go test -v -race ./...
-
   build:
     name: Multi-Platform Build
     runs-on: ubuntu-latest
@@ -51,11 +41,10 @@ jobs:
         goarch: [amd64, arm64]
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Go
-        uses: actions/setup-go@v5
+      - name: Set up Go
+        uses: actions/setup-go@v2
         with:
           go-version: "1.25.x"
-
       - name: Build Binary
         env:
           GOOS: ${{ matrix.goos }}
