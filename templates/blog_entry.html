@@ -1,6 +1,8 @@
 {{ define "post" }}
 <h1>{{ .Title }}</h1>
-<small>{{ .EditedTS}}</small>
-<hr />
-<div>{{ .HTMLContent }}</div>
+  <main class="container">
+    <small>{{ .EditedTS}}</small>
+    <hr />
+    <div>{{ .HTMLContent }}</div>
+  </main>
 {{ end }}

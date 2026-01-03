@@ -9,6 +9,22 @@ header {
   font-family: "FiraCode Nerd Font", monospace;
 }
 
+pre {
+    max-width: calc(100vw - 50px);
+    overflow-x: auto; /* Adds the horizontal scrollbar when needed */
+    white-space: pre;  /* Ensures code doesn't wrap to the next line */
+    word-wrap: normal; /* Prevents breaking words */
+}
+
+/* Optional: Style the scrollbar to match Pico's aesthetic */
+pre::-webkit-scrollbar {
+    height: 8px;
+}
+pre::-webkit-scrollbar-thumb {
+    background: var(--pico-muted-border-color);
+    border-radius: 4px;
+}
+
 /* section { */
 /*   background-color: var(--pico-background-color); */
 /*   color: var(--pico-color); */
