@@ -1,4 +1,6 @@
-# 🚀 GoMarkdown Blog
+[![Go Quality & Build](https://github.com/hampusadamsson/mdblogger/actions/workflows/pipeline.yml/badge.svg)](https://github.com/hampusadamsson/mdblogger/actions/workflows/pipeline.yml)
+
+# Markdown Blog
 
 A dead-simple, lightweight Markdown-to-blog framework written in **pure Go**. No bloated JavaScript frameworks, no complex databases, and no heavy dependencies.
 
