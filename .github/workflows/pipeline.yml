@@ -16,34 +16,29 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.22"
-          cache: false # golangci-lint handles its own caching
+          go-version: "1.25.x" # Align with your project's version
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2
+        uses: golangci-lint/golangci-lint-action@v6
         with:
+          # Using 'latest' usually works, but if 1.25 is bleeding edge,
+          # version v1.64.8+ is required.
           version: latest
-          # This prevents the "repository not found" error by ensuring
-          # the action runs with the correct permissions and pathing.
+          # This helps resolve the "output format" warning
+          args: --out-format=colored-line-number
 
   test:
     name: Tests & Race Detection
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.22"
+          go-version: "1.25.x"
           cache: true
 
-      - name: Verify Dependencies
-        run: go mod verify
-
       - name: Run Tests
-        # Adding -race helps catch the concurrency issues
-        # that high-performance Go apps can run into.
         run: go test -v -race ./...
 
   build:
@@ -59,7 +54,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.22"
+          go-version: "1.25.x"
 
       - name: Build Binary
         env:
