@@ -44,5 +44,8 @@ func main() {
 	r.Get("/", blogListHandler)
 	logger.Debug("Root path loaded...")
 
-	http.ListenAndServe(fmt.Sprintf("%s:%d", cfg.Host, cfg.Port), r)
+	err := http.ListenAndServe(fmt.Sprintf("%s:%d", cfg.Host, cfg.Port), r)
+	if err != nil {
+		logger.Error(err.Error())
+	}
 }
