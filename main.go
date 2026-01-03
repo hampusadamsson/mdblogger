@@ -15,7 +15,7 @@ func main() {
 	logger.Info(fmt.Sprintf("Folder=%s", cfg.ContentPath))
 	logger.Info(fmt.Sprintf("Host=%s", cfg.Host))
 	logger.Info(fmt.Sprintf("Port=%d", cfg.Port))
-	logger.Info(fmt.Sprintf("Watcher=%d", cfg.WatcherEnabled))
+	// logger.Info(fmt.Sprintf("Watcher=%d", cfg.WatcherEnabled))
 	logger.Info(fmt.Sprintf("Template=%s", cfg.TemplatePath))
 
 	if cfg.WatcherEnabled {
