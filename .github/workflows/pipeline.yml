@@ -12,21 +12,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
           go-version: "1.22"
+          cache: false # golangci-lint handles its own caching
 
       - name: golangci-lint
         uses: golangci-lint/golangci-lint-action@v6
         with:
           version: latest
+          # This prevents the "repository not found" error by ensuring
+          # the action runs with the correct permissions and pathing.
 
   test:
     name: Tests & Race Detection
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
@@ -37,6 +42,8 @@ jobs:
         run: go mod verify
 
       - name: Run Tests
+        # Adding -race helps catch the concurrency issues
+        # that high-performance Go apps can run into.
         run: go test -v -race ./...
 
   build:
