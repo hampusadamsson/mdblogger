@@ -28,12 +28,12 @@ WORKDIR /app
 COPY --from=builder /app/output ./
 COPY --from=builder /app/templates/ ./templates/
 COPY --from=builder /app/static/ ./static/
-COPY --from=builder /app/content/ ./content/
+# COPY --from=builder /app/content/ ./content/
 
 # Set Environment Variables (Note: no spaces around '=')
-ENV BLOG_PATH="/app/content"
-ENV BLOG_PORT="8080"
-ENV BLOG_HOST="0.0.0.0"
+# ENV BLOG_PATH="/app/content"
+# ENV BLOG_PORT="8080"
+# ENV BLOG_HOST="0.0.0.0"
 
 # Expose the port defined in your config
 EXPOSE 8080
