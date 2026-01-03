@@ -1,51 +1,42 @@
-# multiline ARGS is available since Docker 17.05, so you may need to combine these into a single ARG
+# Use the Go version from your project
 ARG GO_VERSION=1.25
-
-# We choose alpine as our base image to minimize the size of the final image
 FROM golang:${GO_VERSION}-alpine AS builder
 
-# Enable go modules
-ENV GO111MODULE=on
-
-# Install gcc for cgo
+# Install build dependencies
 RUN apk add --no-cache gcc musl-dev
 
 WORKDIR /app
 
-# Copy go.mod and go.sum to fetch dependencies efficiently
+# 1. Fetch dependencies - this layer is cached unless go.mod/go.sum change
 COPY go.mod go.sum ./
+RUN go mod download && go mod verify
 
-# Download dependencies before building for better caching
-RUN go mod download
-
-# Next, copy the entire source code
+# 2. Copy source and build
 COPY . .
+# CGO_ENABLED=0 creates a statically linked binary that runs anywhere
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o output .
 
-# Perform the build
-RUN CGO_ENABLED=0 go build -o output main.go
-
-RUN ls /app
-RUN ls /app/content
-
-# Final stage, only the binary
+# Final stage: Use a tiny alpine image
 FROM alpine:latest
+
+# Install CA certificates for secure connections
+RUN apk add --no-cache ca-certificates
 
 WORKDIR /app
 
-# Copy the binary
+# Copy the binary and all required assets from the builder
 COPY --from=builder /app/output ./
-COPY --from=builder /app/templates/ /app/templates/
-COPY --from=builder /app/static/ /app/static/
-COPY --from=builder /app/content/ /app/content/
+COPY --from=builder /app/templates/ ./templates/
+COPY --from=builder /app/static/ ./static/
+COPY --from=builder /app/content/ ./content/
 
-RUN ls /app
-RUN ls /app/content
+# Set Environment Variables (Note: no spaces around '=')
+ENV BLOG_PATH="/app/content"
+ENV BLOG_PORT="8080"
+ENV BLOG_HOST="0.0.0.0"
 
-# ENV
-ENV MD_CONTENT_PATH = "/app/content"
-
-# Port on which the service will be exposed
+# Expose the port defined in your config
 EXPOSE 8080
 
-# Command to run the binary
-CMD ["./output"]
+# Run the app
+ENTRYPOINT ["./output"]
