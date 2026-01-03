@@ -10,7 +10,7 @@ Just point it at a folder of Markdown files, and your blog is live instantly.
 <img src="mdblogger.png" />
 </div>
 
-## ✨ Features
+## Features
 
 - **Zero-Config Ready:** Runs straight out of the box.
 - **Automatic Discovery:** Any `.md` file in your content folder becomes a post.
