@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Go
-        uses: actions/setup-go@v5 # Upgraded to v5 for better 1.25 support
+        uses: actions/setup-go@v6 # Upgraded to v5 for better 1.25 support
         with:
           go-version: "1.25.x"
           cache: true
@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v6
         with:
           go-version: "1.25.x"
           cache: "on"
@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v6
         with:
           go-version: "1.25.x"
       - name: Build Binary
