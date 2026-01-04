@@ -8,6 +8,17 @@ header {
   font-family: "FiraCode Nerd Font";
 }
 
+.blog {
+  min-width: 300px;
+}
+
+.weak {
+    opacity: 0.5;                /* Makes it look faded */
+    pointer-events: none;        /* Prevents clicks/hover effects */
+    cursor: not-allowed;         /* Shows the "blocked" cursor */
+    user-select: none;           /* Prevents text highlighting */
+}
+
 h1 {
   font-family: "FiraCode Nerd Font";
 }
@@ -59,13 +70,13 @@ u {
 
 header {
   position: sticky;
-  /* top: 0; */
-  /* background: white; */
+  top: 0;               /* Required for sticky to actually work */
   z-index: 100;
-  padding: 0.25rem 1.5rem;
-  border-bottom: 1px solid #ccc;
+  padding: 0 1.5rem;    /* Removed vertical padding (0.25rem -> 0) */
+  border-bottom: 0.25px solid #ccc;
+  line-height: 0.1;     /* Keeps text compact */
+  min-height: auto;     /* Ensures no inherited min-height is interfering */
 }
-
 .navmin {
   height: 0.75rem;
 }

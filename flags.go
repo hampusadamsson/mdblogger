@@ -14,6 +14,12 @@ type Config struct {
 	Port           int
 	WatcherEnabled bool
 	TemplatePath   string
+	// RSS
+	BlogName        string
+	BlogURL         string
+	AuthorURL       string
+	AuthorName      string
+	BlogDescription string
 }
 
 func setupFlags() *Config {
@@ -25,13 +31,17 @@ func setupFlags() *Config {
 	flag.BoolVar(&cfg.WatcherEnabled, "watcher", getEnvBool("BLOG_WATCHER", true), "Enable hot reload on file changes")
 	flag.StringVar(&cfg.TemplatePath, "template", getEnv("BLOG_TEMPLATE", "templates"), "Path to the template folder")
 	flag.StringVar(&cfg.Host, "host", getEnv("BLOG_HOST", "127.0.0.1"), "Host (0.0.0.0) for public (defaults to localhost)")
-
+	flag.StringVar(&cfg.BlogName, "name", getEnv("BLOG_NAME", "My Blog"), "Title of the blog (used in RSS)")
+	flag.StringVar(&cfg.BlogURL, "url", getEnv("BLOG_URL", "http://localhost:8080"), "The public URL of your blog")
+	flag.StringVar(&cfg.AuthorName, "author", getEnv("BLOG_AUTHOR", "Admin"), "Author name for RSS feed")
+	flag.StringVar(&cfg.AuthorURL, "author-url", getEnv("BLOG_AUTHOR_URL", ""), "Link to author profile/site")
+	flag.StringVar(&cfg.BlogDescription, "desc", getEnv("BLOG_DESCRIPTION", "A blog powered by mdBlogger"), "Description of the blog")
 	// Custom Usage/Help message
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage of Blog CLI:\n")
 		flag.PrintDefaults()
 		fmt.Fprintf(os.Stderr, "\nEnvironment variables (overridden by flags):\n")
-		fmt.Fprintf(os.Stderr, "  BLOG_PATH, BLOG_HOST, BLOG_PORT, BLOG_WATCHER, BLOG_TEMPLATE, BLOG_ASSETS\n")
+		fmt.Fprintf(os.Stderr, "  BLOG_PATH, BLOG_HOST, BLOG_PORT, BLOG_WATCHER, BLOG_TEMPLATE, BLOG_NAME, BLOG_URL, BLOG_AUTHOR, BLOG_DESCRIPTION\n")
 	}
 
 	flag.Parse()

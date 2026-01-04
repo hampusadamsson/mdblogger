@@ -13,26 +13,37 @@ import (
 	"sort"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/go-chi/chi/v5"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/renderer/html"
+	"gopkg.in/yaml.v3"
 )
 
 type BlogPost struct {
-	Post        bool
 	Title       string
 	Slug        string
 	EditedTS    string
+	CreatedAt   string
+	Description string
 	HTMLContent template.HTML
+	Post        bool
+	Draft       bool
 }
 
 type BlogList struct {
 	Post  bool
 	Title string
 	Posts []BlogPost
+}
+
+type FrontMatter struct {
+	CreatedAt   time.Time `yaml:"created"`
+	Description string    `yaml:"description"`
+	Draft       bool      `yaml:"draft"`
 }
 
 var md = goldmark.New(
@@ -85,12 +96,7 @@ func ConvertObsidianImageLinks(input string) string {
 	return result
 }
 
-func markdownToHTML(path string) (string, error) {
-	input, err := os.ReadFile(path)
-	if err != nil {
-		return "", err
-	}
-
+func convertMarkdownToHTML(input string) (string, error) {
 	inputLinksFixed := []byte(ConvertObsidianImageLinks(string(input)))
 
 	var buf bytes.Buffer
@@ -116,6 +122,28 @@ func loadTemplates(folder string) {
 	))
 }
 
+func parseFrontMatter(content string) (FrontMatter, string, error) {
+	var meta FrontMatter
+
+	// Require the first "---" to be at the very start
+	if !strings.HasPrefix(content, "---") {
+		return meta, content, nil
+	}
+
+	parts := strings.SplitN(content, "---", 3)
+
+	if len(parts) < 3 {
+		return meta, content, nil
+	}
+
+	err := yaml.Unmarshal([]byte(parts[1]), &meta)
+	if err != nil {
+		return meta, "", err
+	}
+
+	return meta, parts[2], nil
+}
+
 func loadBlogPosts(path string) error {
 	files, err := os.ReadDir(path)
 	if err != nil {
@@ -127,38 +155,39 @@ func loadBlogPosts(path string) error {
 	for _, f := range files {
 		if !f.IsDir() && strings.HasSuffix(f.Name(), ".md") {
 			fullPath := filepath.Join(path, f.Name())
-
-			// 1. Read the raw file content to check for text
-			content, err := os.ReadFile(fullPath)
+			rawContent, err := os.ReadFile(fullPath)
 			if err != nil {
 				return fmt.Errorf("could not read file %s: %w", f.Name(), err)
 			}
 
-			// 2. Strip whitespace and check if empty
-			if len(strings.TrimSpace(string(content))) == 0 {
-				continue // Skip this file
-			}
-
-			// 3. Process the file as before
-			html, err := markdownToHTML(fullPath)
+			// Parse Front Matter and Content
+			meta, markdownOnly, err := parseFrontMatter(string(rawContent))
 			if err != nil {
-				return fmt.Errorf("error parsing %s: %w", f.Name(), err)
+				logger.Warn(fmt.Sprintf("Skipping %s: invalid front matter", f.Name()))
+				continue
 			}
 
-			modedTime, err := fileModed(fullPath)
+			// Check for Draft status
+			if meta.Draft {
+				continue
+			}
+
+			html, err := convertMarkdownToHTML(markdownOnly)
 			if err != nil {
 				return err
 			}
 
+			modedTime, _ := fileModed(fullPath)
 			name := strings.TrimSuffix(f.Name(), ".md")
-			rawTitle := strings.ReplaceAll(name, "-", " ")
-			title := strings.ToUpper(rawTitle[:1]) + rawTitle[1:]
+
 			newPosts[name] = BlogPost{
-				Title:       title,
-				Post:        true,
+				Title:       name,
 				Slug:        name,
 				EditedTS:    modedTime,
+				CreatedAt:   meta.CreatedAt.String()[:10],
+				Description: meta.Description,
 				HTMLContent: template.HTML(html),
+				Post:        true,
 			}
 		}
 	}
@@ -167,7 +196,6 @@ func loadBlogPosts(path string) error {
 	blogPosts = newPosts
 	blogMux.Unlock()
 
-	logger.Info(fmt.Sprintf("Found: %d posts\n", len(blogPosts)))
 	return nil
 }
 
@@ -247,7 +275,7 @@ func blogListHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sort.Slice(allPosts, func(i, j int) bool {
-		return allPosts[i].EditedTS > allPosts[j].EditedTS
+		return allPosts[i].CreatedAt > allPosts[j].CreatedAt
 	})
 
 	data := BlogList{

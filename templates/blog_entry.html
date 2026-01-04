@@ -1,7 +1,9 @@
 {{ define "post" }}
 <h1>{{ .Title }}</h1>
   <main class="container">
-    <small>{{ .EditedTS}}</small>
+    <small class="weak">Published: {{ .CreatedAt}}</small>
+    <br/>
+    <small class="weak">Updated: {{ .EditedTS}}</small>
     <hr />
     <div>{{ .HTMLContent }}</div>
   </main>

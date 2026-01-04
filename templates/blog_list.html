@@ -5,7 +5,11 @@
     <p class="post-title">
       <a href="/blog/{{ .Slug }}">{{ .Title }}</a>
     </p>
-    <small class="weak">{{ .EditedTS}}</small>
+    {{if .Description}}
+    <small>{{ .Description}}</small>
+    <br/>
+    {{ end }}
+    <small class="weak">{{ .CreatedAt}}</small>
   </article>
   {{ else }}
   <p class="empty">No posts available.</p>

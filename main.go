@@ -44,6 +44,10 @@ func main() {
 	r.Get("/", blogListHandler)
 	logger.Debug("Root path loaded...")
 
+	rss := Rss{BlogName: cfg.BlogName, BlogURL: cfg.BlogURL, BlogDescription: cfg.BlogDescription, AuthorName: cfg.AuthorName, AuthorURL: cfg.AuthorURL}
+	r.Get("/rss.xml", rss.RssHandler)
+	logger.Debug("RSS handler loaded...")
+
 	err := http.ListenAndServe(fmt.Sprintf("%s:%d", cfg.Host, cfg.Port), r)
 	if err != nil {
 		logger.Error(err.Error())
