@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/gorilla/feeds"
@@ -19,7 +20,7 @@ type Rss struct {
 func (rss *Rss) RssHandler(w http.ResponseWriter, r *http.Request) {
 	feed := &feeds.Feed{
 		Title:       rss.BlogName,
-		Link:        &feeds.Link{Href: rss.BlogURL},
+		Link:        &feeds.Link{Href: url.PathEscape(rss.BlogURL)},
 		Description: rss.BlogDescription,
 		Author:      &feeds.Author{Name: rss.AuthorName, Email: rss.AuthorEmail},
 	}
@@ -41,7 +42,8 @@ func (rss *Rss) RssHandler(w http.ResponseWriter, r *http.Request) {
 
 		item := &feeds.Item{
 			Title:       post.Title,
-			Link:        &feeds.Link{Href: fmt.Sprintf("%s/blog/%s", rss.BlogURL, post.Slug)},
+			Id:          fmt.Sprintf("%s/blog/%s", rss.BlogURL, url.PathEscape(post.Slug)),
+			Link:        &feeds.Link{Href: fmt.Sprintf("%s/blog/%s", rss.BlogURL, url.PathEscape(post.Slug))},
 			Updated:     editedTime,
 			Description: post.Description,
 			Created:     CreatedTime,
