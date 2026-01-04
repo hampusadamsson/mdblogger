@@ -44,7 +44,7 @@ func main() {
 	r.Get("/", blogListHandler)
 	logger.Debug("Root path loaded...")
 
-	rss := Rss{BlogName: cfg.BlogName, BlogURL: cfg.BlogURL, BlogDescription: cfg.BlogDescription, AuthorName: cfg.AuthorName, AuthorURL: cfg.AuthorURL}
+	rss := Rss{BlogName: cfg.BlogName, BlogURL: cfg.BlogURL, BlogDescription: cfg.BlogDescription, AuthorName: cfg.AuthorName, AuthorEmail: cfg.AuthorEmail}
 	r.Get("/rss.xml", rss.RssHandler)
 	logger.Debug("RSS handler loaded...")
 

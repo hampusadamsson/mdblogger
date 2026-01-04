@@ -86,13 +86,17 @@ To create an "About Me" section, simply create an `about.md` file in your root c
 
 You can configure the server using CLI flags or Environment Variables. **Flags always take precedence over environment variables.**
 
-| Flag        | Env Variable    | Default     | Description                          |
-| ----------- | --------------- | ----------- | ------------------------------------ |
-| `-path`     | `BLOG_PATH`     | (Required)  | Path to your Markdown content folder |
-| `-port`     | `BLOG_PORT`     | `8080`      | Port to host the server on           |
-| `-host`     | `BLOG_HOST`     | `127.0.0.1` | Use `0.0.0.0` for public access      |
-| `-watcher`  | `BLOG_WATCHER`  | `true`      | Enable hot reload on file changes    |
-| `-template` | `BLOG_TEMPLATE` | `templates` | Path to custom HTML templates        |
+| Flag | Env Variable | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `-path` | `BLOG_PATH` | (Required) | Path to your Markdown content folder |
+| `-port` | `BLOG_PORT` | `8080` | Port to host the server on |
+| `-host` | `BLOG_HOST` | `127.0.0.1` | Use `0.0.0.0` for public access |
+| `-name` | `BLOG_NAME` | `My Blog` | The title of your blog |
+| `-desc` | `BLOG_DESCRIPTION` | `...` | SEO Description for the site |
+| `-url` | `BLOG_URL` | `http://...` | The base URL of your live blog |
+| `-author-url` | `BLOG_AUTHOR_URL` | ` ` | Link to your portfolio or about page |
+| `-watcher` | `BLOG_WATCHER` | `true` | Enable hot reload on file changes |
+| `-template` | `BLOG_TEMPLATE` | `templates` | Path to custom HTML templates |
 
 ### Example with Flags
 

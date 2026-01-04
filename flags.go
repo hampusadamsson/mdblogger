@@ -17,7 +17,7 @@ type Config struct {
 	// RSS
 	BlogName        string
 	BlogURL         string
-	AuthorURL       string
+	AuthorEmail     string
 	AuthorName      string
 	BlogDescription string
 }
@@ -34,14 +34,14 @@ func setupFlags() *Config {
 	flag.StringVar(&cfg.BlogName, "name", getEnv("BLOG_NAME", "My Blog"), "Title of the blog (used in RSS)")
 	flag.StringVar(&cfg.BlogURL, "url", getEnv("BLOG_URL", "http://localhost:8080"), "The public URL of your blog")
 	flag.StringVar(&cfg.AuthorName, "author", getEnv("BLOG_AUTHOR", "Admin"), "Author name for RSS feed")
-	flag.StringVar(&cfg.AuthorURL, "author-url", getEnv("BLOG_AUTHOR_URL", ""), "Link to author profile/site")
+	flag.StringVar(&cfg.AuthorEmail, "author-email", getEnv("BLOG_AUTHOR_EMAIL", ""), "Author email")
 	flag.StringVar(&cfg.BlogDescription, "desc", getEnv("BLOG_DESCRIPTION", "A blog powered by mdBlogger"), "Description of the blog")
 	// Custom Usage/Help message
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage of Blog CLI:\n")
 		flag.PrintDefaults()
 		fmt.Fprintf(os.Stderr, "\nEnvironment variables (overridden by flags):\n")
-		fmt.Fprintf(os.Stderr, "  BLOG_PATH, BLOG_HOST, BLOG_PORT, BLOG_WATCHER, BLOG_TEMPLATE, BLOG_NAME, BLOG_URL, BLOG_AUTHOR, BLOG_DESCRIPTION\n")
+		fmt.Fprintf(os.Stderr, "  BLOG_PATH, BLOG_HOST, BLOG_PORT, BLOG_WATCHER, BLOG_TEMPLATE, BLOG_NAME, BLOG_URL, BLOG_AUTHOR_EMAIL, BLOG_DESCRIPTION\n")
 	}
 
 	flag.Parse()

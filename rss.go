@@ -11,7 +11,7 @@ import (
 type Rss struct {
 	BlogName        string
 	BlogURL         string
-	AuthorURL       string
+	AuthorEmail     string
 	AuthorName      string
 	BlogDescription string
 }
@@ -21,7 +21,7 @@ func (rss *Rss) RssHandler(w http.ResponseWriter, r *http.Request) {
 		Title:       rss.BlogName,
 		Link:        &feeds.Link{Href: rss.BlogURL},
 		Description: rss.BlogDescription,
-		Author:      &feeds.Author{Name: rss.AuthorName, Email: rss.AuthorURL},
+		Author:      &feeds.Author{Name: rss.AuthorName, Email: rss.AuthorEmail},
 	}
 
 	for _, post := range blogPosts {
