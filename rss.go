@@ -16,12 +16,12 @@ type Rss struct {
 	BlogDescription string
 }
 
-func (this *Rss) RssHandler(w http.ResponseWriter, r *http.Request) {
+func (rss *Rss) RssHandler(w http.ResponseWriter, r *http.Request) {
 	feed := &feeds.Feed{
-		Title:       this.BlogName,
-		Link:        &feeds.Link{Href: this.BlogURL},
-		Description: this.BlogDescription,
-		Author:      &feeds.Author{Name: this.AuthorName, Email: this.AuthorURL},
+		Title:       rss.BlogName,
+		Link:        &feeds.Link{Href: rss.BlogURL},
+		Description: rss.BlogDescription,
+		Author:      &feeds.Author{Name: rss.AuthorName, Email: rss.AuthorURL},
 	}
 
 	for _, post := range blogPosts {
@@ -41,7 +41,7 @@ func (this *Rss) RssHandler(w http.ResponseWriter, r *http.Request) {
 
 		item := &feeds.Item{
 			Title:       post.Title,
-			Link:        &feeds.Link{Href: fmt.Sprintf("%s/blog/%s", this.BlogURL, post.Slug)},
+			Link:        &feeds.Link{Href: fmt.Sprintf("%s/blog/%s", rss.BlogURL, post.Slug)},
 			Updated:     editedTime,
 			Description: post.Description,
 			Created:     CreatedTime,
@@ -49,12 +49,16 @@ func (this *Rss) RssHandler(w http.ResponseWriter, r *http.Request) {
 		feed.Items = append(feed.Items, item)
 	}
 
-	rss, err := feed.ToRss()
+	rssFeed, err := feed.ToRss()
 	if err != nil {
 		http.Error(w, "Could not generate feed", http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/xml")
-	w.Write([]byte(rss))
+	_, err = w.Write([]byte(rssFeed))
+	if err != nil {
+		http.Error(w, "Could not generate feed", http.StatusInternalServerError)
+		return
+	}
 }
