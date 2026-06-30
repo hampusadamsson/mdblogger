@@ -2,6 +2,6 @@ name: Test self-hosted runner
 on: push
 jobs:
   test:
-    runs-on: org-runner
+    runs-on: mdblogger-runner
     steps:
       - run: echo "Hello from self-hosted runner!"
