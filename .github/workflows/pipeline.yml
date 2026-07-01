@@ -7,7 +7,7 @@ on:
 jobs:
   lint:
     name: Linting
-    runs-on: ubuntu-latest
+    runs-on: mdblogger-runner
     steps:
       - uses: actions/checkout@v4
       - name: Set up Go
@@ -54,3 +54,37 @@ jobs:
           BINARY_NAME=gomarkdown-${{ matrix.goos }}-${{ matrix.goarch }}
           if [ "${{ matrix.goos }}" = "windows" ]; then BINARY_NAME+='.exe'; fi
           go build -o $BINARY_NAME .
+
+  docker:
+    name: Docker Build & Push (k3s)
+    runs-on: mdblogger-runner
+    needs: [lint, test]
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect k3s
+        id: detect
+        run: |
+          if command -v k3s &>/dev/null; then
+            echo "present=true" >> $GITHUB_OUTPUT
+          else
+            echo "present=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up Docker Buildx
+        if: steps.detect.outputs.present == 'true'
+        uses: docker/setup-buildx-action@v3
+        with:
+          config-inline: |
+            [registry."docker-registry.registry.svc.cluster.local:5000"]
+              http = true
+              insecure = true
+
+      - name: Build & Push
+        if: steps.detect.outputs.present == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: docker-registry.registry.svc.cluster.local:5000/mdblogger:latest
