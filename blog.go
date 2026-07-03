@@ -282,6 +282,7 @@ func blogListHandler(w http.ResponseWriter, r *http.Request) {
 		Posts: allPosts,
 		Title: "list",
 	}
+
 	err := tpl.ExecuteTemplate(w, "layout.html", data)
 	if err != nil {
 		logger.Error(err.Error())
