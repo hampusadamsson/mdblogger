@@ -1,4 +1,4 @@
-[![Go Quality & Build](https://github.com/hampusadamsson/mdblogger/actions/workflows/pipeline.yml/badge.svg)](https://github.com/hampusadamsson/mdblogger/actions/workflows/pipeline.yml)
+[![Go Quality & Build](https://github.com/hampusadamsson/mdblogger/actions/workflows/gh_build.yml/badge.svg)](https://github.com/hampusadamsson/mdblogger/actions/workflows/gh_build.yml)
 
 # Markdown Blog
 
